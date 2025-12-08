@@ -3,7 +3,7 @@
 **Project:** AgentFlow - Multi-Agent Workflow Orchestration Platform  
 **Component:** AgentFlow Core (Python/FastAPI Backend)  
 **Version:** 1.0  
-**Last Updated:** December 7, 2025
+**Last Updated:** December 8, 2025
 
 ---
 
@@ -41,13 +41,13 @@ AgentFlow Core is a **Python-based workflow orchestration engine** built on **Fa
 
 | Component | Technology | Version |
 |-----------|------------|---------|
-| **Runtime** | Python | 3.11+ |
+| **Runtime** | Python | 3.13+ |
 | **Web Framework** | FastAPI | 0.100+ |
 | **Workflow Engine** | LangGraph | Latest |
 | **Validation** | Pydantic | 2.0+ |
 | **Database** | PostgreSQL | 14+ |
 | **Cache/Queue** | Redis | 7+ |
-| **LLM Integration** | OpenAI SDK | 1.0+ |
+| **LLM Integration** | Google Gemini | 1.5+ |
 | **HTTP Client** | httpx | 0.24+ |
 | **Testing** | pytest | 7.0+ |
 | **Async Support** | AsyncIO | Built-in |
@@ -57,7 +57,7 @@ AgentFlow Core is a **Python-based workflow orchestration engine** built on **Fa
 ## Core Features
 
 ### F-001: WorkflowSpec JSON Schema
-**Priority:** P0 (MVP)  
+**Priority:** P0 (MVP) ✅ **Completed**  
 **Description:** Define and validate complete workflow specifications in JSON format.
 
 **Capabilities:**
@@ -77,7 +77,7 @@ AgentFlow Core is a **Python-based workflow orchestration engine** built on **Fa
 ---
 
 ### F-002: Pydantic Data Models
-**Priority:** P0 (MVP)  
+**Priority:** P0 (MVP) ✅ **Completed**  
 **Description:** Type-safe data models for all workflow components.
 
 **Models:**

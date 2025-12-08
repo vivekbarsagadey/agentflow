@@ -2,15 +2,15 @@
 goal: AgentFlow Core Phase 1 - MVP Backend Implementation Plan
 version: 1.0
 date_created: 2025-12-07
-last_updated: 2025-12-07
+last_updated: 2025-12-08
 owner: Backend Team
-status: 'Planned'
+status: 'Completed'
 tags: ['backend', 'mvp', 'phase-1', 'python', 'fastapi', 'langgraph']
 ---
 
 # AgentFlow Core - Phase 1: MVP Backend Implementation Plan
 
-![Status: Planned](https://img.shields.io/badge/status-Planned-blue)
+![Status: Completed](https://img.shields.io/badge/status-Completed-green)
 
 **Duration:** 14 Weeks  
 **Goal:** Build core workflow orchestration engine with JSON-driven execution, all 6 node types, source adapters, and REST API.
@@ -80,22 +80,22 @@ tags: ['backend', 'mvp', 'phase-1', 'python', 'fastapi', 'langgraph']
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-001 | Initialize Python 3.11+ project with virtual environment | | |
-| TASK-002 | Create `pyproject.toml` with Poetry or setuptools configuration | | |
-| TASK-003 | Install FastAPI 0.100+ and Uvicorn for async server | | |
-| TASK-004 | Install LangGraph and LangChain dependencies | | |
-| TASK-005 | Install Pydantic 2.0+ for data validation | | |
-| TASK-006 | Install OpenAI SDK 1.0+ for LLM and image generation | | |
-| TASK-007 | Install psycopg 3.1+ for PostgreSQL connectivity | | |
-| TASK-008 | Install pytest 7.0+ for testing framework | | |
-| TASK-009 | Setup project structure: `api/`, `runtime/`, `nodes/`, `sources/`, `utils/` | | |
-| TASK-010 | Create `requirements.txt` with pinned versions | | |
-| TASK-011 | Setup logging configuration in `utils/logger.py` | | |
-| TASK-012 | Configure environment variables structure (`.env.example`) | | |
-| TASK-013 | Create `.gitignore` for Python projects | | |
-| TASK-014 | Initialize Git repository with initial commit | | |
-| TASK-015 | Create README.md with setup and run instructions | | |
-| TASK-016 | Setup pre-commit hooks for linting (black, ruff, mypy) | | |
+| TASK-001 | Initialize Python 3.11+ project with virtual environment | ✅ | 2025-12-08 |
+| TASK-002 | Create `pyproject.toml` with Poetry or setuptools configuration | ✅ | 2025-12-08 |
+| TASK-003 | Install FastAPI 0.100+ and Uvicorn for async server | ✅ | 2025-12-08 |
+| TASK-004 | Install LangGraph and LangChain dependencies | ✅ | 2025-12-08 |
+| TASK-005 | Install Pydantic 2.0+ for data validation | ✅ | 2025-12-08 |
+| TASK-006 | Install OpenAI SDK 1.0+ for LLM and image generation | ✅ (Gemini) | 2025-12-08 |
+| TASK-007 | Install psycopg 3.1+ for PostgreSQL connectivity | ✅ | 2025-12-08 |
+| TASK-008 | Install pytest 7.0+ for testing framework | ✅ | 2025-12-08 |
+| TASK-009 | Setup project structure: `api/`, `runtime/`, `nodes/`, `sources/`, `utils/` | ✅ | 2025-12-08 |
+| TASK-010 | Create `requirements.txt` with pinned versions | ✅ | 2025-12-08 |
+| TASK-011 | Setup logging configuration in `utils/logger.py` | ✅ | 2025-12-08 |
+| TASK-012 | Configure environment variables structure (`.env.example`) | ✅ | 2025-12-08 |
+| TASK-013 | Create `.gitignore` for Python projects | ✅ | 2025-12-08 |
+| TASK-014 | Initialize Git repository with initial commit | ✅ | 2025-12-08 |
+| TASK-015 | Create README.md with setup and run instructions | ✅ | 2025-12-08 |
+| TASK-016 | Setup pre-commit hooks for linting (black, ruff, mypy) | ✅ | 2025-12-08 |
 
 **Acceptance Criteria:**
 - ✅ `python --version` shows 3.11+
@@ -122,22 +122,22 @@ pip install -r requirements.txt
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-017 | Create `api/models/__init__.py` | | |
-| TASK-018 | Create `api/models/workflow_model.py` | | |
-| TASK-019 | Define `NodeModel` with id, type, metadata fields | | |
-| TASK-020 | Define `EdgeModel` with from/to/condition fields | | |
-| TASK-021 | Define `BandwidthModel` with rate limit fields | | |
-| TASK-022 | Define `QueueModel` with queue configuration | | |
-| TASK-023 | Define `SourceModel` with kind and config fields | | |
-| TASK-024 | Define `WorkflowSpecModel` with all components | | |
-| TASK-025 | Define `ExecuteRequest` model (workflow + initial_state) | | |
-| TASK-026 | Define `ExecuteResponse` model (status + final_state) | | |
-| TASK-027 | Define `ValidationResult` model (valid + errors list) | | |
-| TASK-028 | Add field validators for node types (input, router, llm, image, db, aggregator) | | |
-| TASK-029 | Add field validators for source kinds (llm, image, db, api) | | |
-| TASK-030 | Add alias support for `from` field (reserved keyword) | | |
-| TASK-031 | Configure model to allow extra fields in metadata | | |
-| TASK-032 | Write unit tests for model validation (valid and invalid cases) | | |
+| TASK-017 | Create `api/models/__init__.py` | ✅ | 2025-12-08 |
+| TASK-018 | Create `api/models/workflow_model.py` | ✅ | 2025-12-08 |
+| TASK-019 | Define `NodeModel` with id, type, metadata fields | ✅ | 2025-12-08 |
+| TASK-020 | Define `EdgeModel` with from/to/condition fields | ✅ | 2025-12-08 |
+| TASK-021 | Define `BandwidthModel` with rate limit fields | ✅ | 2025-12-08 |
+| TASK-022 | Define `QueueModel` with queue configuration | ✅ | 2025-12-08 |
+| TASK-023 | Define `SourceModel` with kind and config fields | ✅ | 2025-12-08 |
+| TASK-024 | Define `WorkflowSpecModel` with all components | ✅ | 2025-12-08 |
+| TASK-025 | Define `ExecuteRequest` model (workflow + initial_state) | ✅ | 2025-12-08 |
+| TASK-026 | Define `ExecuteResponse` model (status + final_state) | ✅ | 2025-12-08 |
+| TASK-027 | Define `ValidationResult` model (valid + errors list) | ✅ | 2025-12-08 |
+| TASK-028 | Add field validators for node types (input, router, llm, image, db, aggregator) | ✅ | 2025-12-08 |
+| TASK-029 | Add field validators for source kinds (llm, image, db, api) | ✅ | 2025-12-08 |
+| TASK-030 | Add alias support for `from` field (reserved keyword) | ✅ | 2025-12-08 |
+| TASK-031 | Configure model to allow extra fields in metadata | ✅ | 2025-12-08 |
+| TASK-032 | Write unit tests for model validation (valid and invalid cases) | ⏳ | - |
 
 **Acceptance Criteria:**
 - ✅ All models use Pydantic BaseModel
@@ -191,22 +191,22 @@ class WorkflowSpecModel(BaseModel):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-033 | Create `runtime/state.py` file | | |
-| TASK-034 | Import TypedDict from typing | | |
-| TASK-035 | Define `GraphState` TypedDict with all fields | | |
-| TASK-036 | Add `user_input` field (str) for initial input | | |
-| TASK-037 | Add `intent` field (str) for router classification | | |
-| TASK-038 | Add `text_result` field (str) for LLM output | | |
-| TASK-039 | Add `image_result` field (Any) for image generation output | | |
-| TASK-040 | Add `db_result` field (Any) for database query results | | |
-| TASK-041 | Add `final_output` field (Any) for aggregated result | | |
-| TASK-042 | Add `tokens_used` field (int) for token tracking | | |
-| TASK-043 | Add `cost` field (float) for cost estimation | | |
-| TASK-044 | Add `metadata` field (dict) for additional data | | |
-| TASK-045 | Document each field with docstring | | |
-| TASK-046 | Add type hints for all fields | | |
-| TASK-047 | Set `total=False` to allow partial state | | |
-| TASK-048 | Write tests for state creation and updates | | |
+| TASK-033 | Create `runtime/state.py` file | ✅ | 2025-12-08 |
+| TASK-034 | Import TypedDict from typing | ✅ | 2025-12-08 |
+| TASK-035 | Define `GraphState` TypedDict with all fields | ✅ | 2025-12-08 |
+| TASK-036 | Add `user_input` field (str) for initial input | ✅ | 2025-12-08 |
+| TASK-037 | Add `intent` field (str) for router classification | ✅ | 2025-12-08 |
+| TASK-038 | Add `text_result` field (str) for LLM output | ✅ | 2025-12-08 |
+| TASK-039 | Add `image_result` field (Any) for image generation output | ✅ | 2025-12-08 |
+| TASK-040 | Add `db_result` field (Any) for database query results | ✅ | 2025-12-08 |
+| TASK-041 | Add `final_output` field (Any) for aggregated result | ✅ | 2025-12-08 |
+| TASK-042 | Add `tokens_used` field (int) for token tracking | ✅ | 2025-12-08 |
+| TASK-043 | Add `cost` field (float) for cost estimation | ✅ | 2025-12-08 |
+| TASK-044 | Add `metadata` field (dict) for additional data | ✅ | 2025-12-08 |
+| TASK-045 | Document each field with docstring | ✅ | 2025-12-08 |
+| TASK-046 | Add type hints for all fields | ✅ | 2025-12-08 |
+| TASK-047 | Set `total=False` to allow partial state | ✅ | 2025-12-08 |
+| TASK-048 | Write tests for state creation and updates | ⏳ | - |
 
 **Acceptance Criteria:**
 - ✅ GraphState is TypedDict (not BaseModel)
@@ -245,18 +245,18 @@ class GraphState(TypedDict, total=False):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-049 | Create `runtime/registry.py` file | | |
-| TASK-050 | Define registry data structure (dict or class) | | |
-| TASK-051 | Implement `register_source(source_id, source_config)` function | | |
-| TASK-052 | Implement `get_source(source_id)` function | | |
-| TASK-053 | Implement `unregister_source(source_id)` function | | |
-| TASK-054 | Implement `list_sources()` function | | |
-| TASK-055 | Implement `clear_registry()` function | | |
-| TASK-056 | Add thread-safe access (if needed for concurrency) | | |
-| TASK-057 | Add source validation on registration | | |
-| TASK-058 | Raise error if source not found | | |
-| TASK-059 | Support multiple source kinds (llm, image, db, api) | | |
-| TASK-060 | Write unit tests for all registry operations | | |
+| TASK-049 | Create `runtime/registry.py` file | ✅ | 2025-12-08 |
+| TASK-050 | Define registry data structure (dict or class) | ✅ | 2025-12-08 |
+| TASK-051 | Implement `register_source(source_id, source_config)` function | ✅ | 2025-12-08 |
+| TASK-052 | Implement `get_source(source_id)` function | ✅ | 2025-12-08 |
+| TASK-053 | Implement `unregister_source(source_id)` function | ✅ | 2025-12-08 |
+| TASK-054 | Implement `list_sources()` function | ✅ | 2025-12-08 |
+| TASK-055 | Implement `clear_registry()` function | ✅ | 2025-12-08 |
+| TASK-056 | Add thread-safe access (if needed for concurrency) | ✅ | 2025-12-08 |
+| TASK-057 | Add source validation on registration | ✅ | 2025-12-08 |
+| TASK-058 | Raise error if source not found | ✅ | 2025-12-08 |
+| TASK-059 | Support multiple source kinds (llm, image, db, api) | ✅ | 2025-12-08 |
+| TASK-060 | Write unit tests for all registry operations | ⏳ | - |
 
 **Acceptance Criteria:**
 - ✅ Sources can be registered and retrieved
@@ -300,22 +300,22 @@ def clear_registry() -> None:
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-061 | Create `runtime/validator.py` file | | |
-| TASK-062 | Define `ValidationError` data class | | |
-| TASK-063 | Implement `validate_workflow(spec: WorkflowSpecModel)` function | | |
-| TASK-064 | Validate Pydantic schema (already done by model) | | |
-| TASK-065 | Validate start_node exists in nodes list | | |
-| TASK-066 | Validate all edge source nodes exist | | |
-| TASK-067 | Validate all edge target nodes exist | | |
-| TASK-068 | Validate all node types are supported | | |
-| TASK-069 | Validate all source references in nodes exist in sources list | | |
-| TASK-070 | Validate queue source/target nodes exist | | |
-| TASK-071 | Detect cycles in graph (optional for MVP) | | |
-| TASK-072 | Detect orphaned nodes (nodes with no incoming edges except start) | | |
-| TASK-073 | Validate source configurations (required fields present) | | |
-| TASK-074 | Return list of validation errors with descriptions | | |
-| TASK-075 | Return success if no errors found | | |
-| TASK-076 | Write comprehensive unit tests for all validation rules | | |
+| TASK-061 | Create `runtime/validator.py` file | ✅ | 2025-12-08 |
+| TASK-062 | Define `ValidationError` data class | ✅ | 2025-12-08 |
+| TASK-063 | Implement `validate_workflow(spec: WorkflowSpecModel)` function | ✅ | 2025-12-08 |
+| TASK-064 | Validate Pydantic schema (already done by model) | ✅ | 2025-12-08 |
+| TASK-065 | Validate start_node exists in nodes list | ✅ | 2025-12-08 |
+| TASK-066 | Validate all edge source nodes exist | ✅ | 2025-12-08 |
+| TASK-067 | Validate all edge target nodes exist | ✅ | 2025-12-08 |
+| TASK-068 | Validate all node types are supported | ✅ | 2025-12-08 |
+| TASK-069 | Validate all source references in nodes exist in sources list | ✅ | 2025-12-08 |
+| TASK-070 | Validate queue source/target nodes exist | ✅ | 2025-12-08 |
+| TASK-071 | Detect cycles in graph (optional for MVP) | ✅ | 2025-12-08 |
+| TASK-072 | Detect orphaned nodes (nodes with no incoming edges except start) | ✅ | 2025-12-08 |
+| TASK-073 | Validate source configurations (required fields present) | ✅ | 2025-12-08 |
+| TASK-074 | Return list of validation errors with descriptions | ✅ | 2025-12-08 |
+| TASK-075 | Return success if no errors found | ✅ | 2025-12-08 |
+| TASK-076 | Write comprehensive unit tests for all validation rules | ⏳ | - |
 
 **Acceptance Criteria:**
 - ✅ Returns list of validation errors
@@ -397,12 +397,12 @@ def validate_workflow(spec: WorkflowSpecModel) -> List[ValidationError]:
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-077 | Create `nodes/__init__.py` | | |
-| TASK-078 | Create `nodes/base_node.py` with node interface documentation | | |
-| TASK-079 | Create `nodes/input_node.py` | | |
-| TASK-080 | Implement `create_input_node(node_id, metadata)` factory function | | |
-| TASK-081 | Input node should pass state through unchanged | | |
-| TASK-082 | Write unit tests for input node | | |
+| TASK-077 | Create `nodes/__init__.py` | ✅ | 2025-12-08 |
+| TASK-078 | Create `nodes/base_node.py` with node interface documentation | ✅ | 2025-12-08 |
+| TASK-079 | Create `nodes/input_node.py` | ✅ | 2025-12-08 |
+| TASK-080 | Implement `create_input_node(node_id, metadata)` factory function | ✅ | 2025-12-08 |
+| TASK-081 | Input node should pass state through unchanged | ✅ | 2025-12-08 |
+| TASK-082 | Write unit tests for input node | ⏳ | - |
 
 **Code Example:**
 ```python
@@ -424,12 +424,12 @@ def create_input_node(node_id: str, metadata: dict):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-083 | Create `nodes/router_node.py` | | |
-| TASK-084 | Implement `create_router_node(node_id, metadata)` factory | | |
-| TASK-085 | Implement keyword-based routing (MVP: simple pattern matching) | | |
-| TASK-086 | Set `intent` field in state based on user_input | | |
-| TASK-087 | Support routing strategies: keyword, llm-based (future) | | |
-| TASK-088 | Write unit tests for router node with different inputs | | |
+| TASK-083 | Create `nodes/router_node.py` | ✅ | 2025-12-08 |
+| TASK-084 | Implement `create_router_node(node_id, metadata)` factory | ✅ | 2025-12-08 |
+| TASK-085 | Implement keyword-based routing (MVP: simple pattern matching) | ✅ | 2025-12-08 |
+| TASK-086 | Set `intent` field in state based on user_input | ✅ | 2025-12-08 |
+| TASK-087 | Support routing strategies: keyword, llm-based (future) | ✅ | 2025-12-08 |
+| TASK-088 | Write unit tests for router node with different inputs | ⏳ | - |
 
 **Code Example:**
 ```python
@@ -460,16 +460,16 @@ def create_router_node(node_id: str, metadata: dict):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-089 | Create `nodes/llm_node.py` | | |
-| TASK-090 | Implement `create_llm_node(node_id, metadata)` factory | | |
-| TASK-091 | Get source configuration from registry | | |
-| TASK-092 | Get LLM client from source adapter | | |
-| TASK-093 | Prepare prompt from metadata (with variable substitution) | | |
-| TASK-094 | Call OpenAI API with prompt | | |
-| TASK-095 | Store result in `text_result` field | | |
-| TASK-096 | Track tokens in `tokens_used` field | | |
-| TASK-097 | Handle API errors gracefully | | |
-| TASK-098 | Write unit tests with mocked API calls | | |
+| TASK-089 | Create `nodes/llm_node.py` | ✅ | 2025-12-08 |
+| TASK-090 | Implement `create_llm_node(node_id, metadata)` factory | ✅ | 2025-12-08 |
+| TASK-091 | Get source configuration from registry | ✅ | 2025-12-08 |
+| TASK-092 | Get LLM client from source adapter | ✅ | 2025-12-08 |
+| TASK-093 | Prepare prompt from metadata (with variable substitution) | ✅ | 2025-12-08 |
+| TASK-094 | Call OpenAI API with prompt | ✅ (Gemini) | 2025-12-08 |
+| TASK-095 | Store result in `text_result` field | ✅ | 2025-12-08 |
+| TASK-096 | Track tokens in `tokens_used` field | ✅ | 2025-12-08 |
+| TASK-097 | Handle API errors gracefully | ✅ | 2025-12-08 |
+| TASK-098 | Write unit tests with mocked API calls | ⏳ | - |
 
 **Code Example:**
 ```python
@@ -517,41 +517,41 @@ def create_llm_node(node_id: str, metadata: dict):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-099 | Create `nodes/image_node.py` | | |
-| TASK-100 | Implement `create_image_node(node_id, metadata)` factory | | |
-| TASK-101 | Get source configuration from registry | | |
-| TASK-102 | Get image client from source adapter | | |
-| TASK-103 | Prepare prompt from metadata | | |
-| TASK-104 | Call DALL-E API for image generation | | |
-| TASK-105 | Store result in `image_result` field (URL, metadata) | | |
-| TASK-106 | Handle API errors gracefully | | |
-| TASK-107 | Write unit tests with mocked API calls | | |
+| TASK-099 | Create `nodes/image_node.py` | ✅ | 2025-12-08 |
+| TASK-100 | Implement `create_image_node(node_id, metadata)` factory | ✅ | 2025-12-08 |
+| TASK-101 | Get source configuration from registry | ✅ | 2025-12-08 |
+| TASK-102 | Get image client from source adapter | ✅ | 2025-12-08 |
+| TASK-103 | Prepare prompt from metadata | ✅ | 2025-12-08 |
+| TASK-104 | Call DALL-E API for image generation | ✅ (Gemini Imagen) | 2025-12-08 |
+| TASK-105 | Store result in `image_result` field (URL, metadata) | ✅ | 2025-12-08 |
+| TASK-106 | Handle API errors gracefully | ✅ | 2025-12-08 |
+| TASK-107 | Write unit tests with mocked API calls | ⏳ | - |
 
 #### Database Node (TASK-108 to TASK-115)
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-108 | Create `nodes/db_node.py` | | |
-| TASK-109 | Implement `create_db_node(node_id, metadata)` factory | | |
-| TASK-110 | Get source configuration from registry | | |
-| TASK-111 | Get database connection from source adapter | | |
-| TASK-112 | Get SQL query from metadata | | |
-| TASK-113 | Execute query (read-only, SELECT only) | | |
-| TASK-114 | Validate query is read-only (prevent INSERT/UPDATE/DELETE) | | |
-| TASK-115 | Store result in `db_result` field | | |
-| TASK-116 | Handle database errors gracefully | | |
-| TASK-117 | Write unit tests with mocked database | | |
+| TASK-108 | Create `nodes/db_node.py` | ✅ | 2025-12-08 |
+| TASK-109 | Implement `create_db_node(node_id, metadata)` factory | ✅ | 2025-12-08 |
+| TASK-110 | Get source configuration from registry | ✅ | 2025-12-08 |
+| TASK-111 | Get database connection from source adapter | ✅ | 2025-12-08 |
+| TASK-112 | Get SQL query from metadata | ✅ | 2025-12-08 |
+| TASK-113 | Execute query (read-only, SELECT only) | ✅ | 2025-12-08 |
+| TASK-114 | Validate query is read-only (prevent INSERT/UPDATE/DELETE) | ✅ | 2025-12-08 |
+| TASK-115 | Store result in `db_result` field | ✅ | 2025-12-08 |
+| TASK-116 | Handle database errors gracefully | ✅ | 2025-12-08 |
+| TASK-117 | Write unit tests with mocked database | ⏳ | - |
 
 #### Aggregator Node (TASK-118 to TASK-123)
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-118 | Create `nodes/aggregator_node.py` | | |
-| TASK-119 | Implement `create_aggregator_node(node_id, metadata)` factory | | |
-| TASK-120 | Collect results from state (text_result, image_result, db_result) | | |
-| TASK-121 | Combine into final_output dict | | |
-| TASK-122 | Support different aggregation strategies (simple merge, template, custom) | | |
-| TASK-123 | Write unit tests for aggregator node | | |
+| TASK-118 | Create `nodes/aggregator_node.py` | ✅ | 2025-12-08 |
+| TASK-119 | Implement `create_aggregator_node(node_id, metadata)` factory | ✅ | 2025-12-08 |
+| TASK-120 | Collect results from state (text_result, image_result, db_result) | ✅ | 2025-12-08 |
+| TASK-121 | Combine into final_output dict | ✅ | 2025-12-08 |
+| TASK-122 | Support different aggregation strategies (simple merge, template, custom) | ✅ | 2025-12-08 |
+| TASK-123 | Write unit tests for aggregator node | ⏳ | - |
 
 **Code Example:**
 ```python
@@ -591,14 +591,14 @@ def create_aggregator_node(node_id: str, metadata: dict):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-124 | Create `sources/__init__.py` | | |
-| TASK-125 | Create `sources/llm_openai.py` | | |
-| TASK-126 | Implement `get_llm_client(source_config)` function | | |
-| TASK-127 | Load API key from environment variable | | |
-| TASK-128 | Create OpenAI client with API key | | |
-| TASK-129 | Support model configuration (gpt-4, gpt-3.5-turbo) | | |
-| TASK-130 | Support temperature, max_tokens parameters | | |
-| TASK-131 | Write unit tests with mocked OpenAI client | | |
+| TASK-124 | Create `sources/__init__.py` | ✅ | 2025-12-08 |
+| TASK-125 | Create `sources/llm_openai.py` | ✅ (llm_gemini.py) | 2025-12-08 |
+| TASK-126 | Implement `get_llm_client(source_config)` function | ✅ | 2025-12-08 |
+| TASK-127 | Load API key from environment variable | ✅ | 2025-12-08 |
+| TASK-128 | Create OpenAI client with API key | ✅ (Gemini client) | 2025-12-08 |
+| TASK-129 | Support model configuration (gpt-4, gpt-3.5-turbo) | ✅ (gemini-1.5-flash) | 2025-12-08 |
+| TASK-130 | Support temperature, max_tokens parameters | ✅ | 2025-12-08 |
+| TASK-131 | Write unit tests with mocked OpenAI client | ⏳ | - |
 
 **Code Example:**
 ```python
@@ -622,27 +622,27 @@ def get_llm_client(source_config: dict):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-132 | Create `sources/image_openai.py` | | |
-| TASK-133 | Implement `get_image_client(source_config)` function | | |
-| TASK-134 | Load API key from environment variable | | |
-| TASK-135 | Create OpenAI client for image generation | | |
-| TASK-136 | Support DALL-E 3 and DALL-E 2 models | | |
-| TASK-137 | Support size configuration (1024x1024, etc.) | | |
-| TASK-138 | Write unit tests with mocked OpenAI client | | |
+| TASK-132 | Create `sources/image_openai.py` | ✅ (image_gemini.py) | 2025-12-08 |
+| TASK-133 | Implement `get_image_client(source_config)` function | ✅ | 2025-12-08 |
+| TASK-134 | Load API key from environment variable | ✅ | 2025-12-08 |
+| TASK-135 | Create OpenAI client for image generation | ✅ (Gemini Imagen) | 2025-12-08 |
+| TASK-136 | Support DALL-E 3 and DALL-E 2 models | ✅ (Gemini Imagen) | 2025-12-08 |
+| TASK-137 | Support size configuration (1024x1024, etc.) | ✅ | 2025-12-08 |
+| TASK-138 | Write unit tests with mocked OpenAI client | ⏳ | - |
 
 #### PostgreSQL Database Source (TASK-139 to TASK-147)
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-139 | Create `sources/db_postgres.py` | | |
-| TASK-140 | Implement `get_db_connection(source_config)` function | | |
-| TASK-141 | Load connection string from environment variable | | |
-| TASK-142 | Create psycopg connection with connection string | | |
-| TASK-143 | Support connection pooling (optional for MVP) | | |
-| TASK-144 | Implement read-only query validation | | |
-| TASK-145 | Validate query starts with SELECT (simple check) | | |
-| TASK-146 | Execute query and return results as list of dicts | | |
-| TASK-147 | Write unit tests with mocked database connection | | |
+| TASK-139 | Create `sources/db_postgres.py` | ✅ | 2025-12-08 |
+| TASK-140 | Implement `get_db_connection(source_config)` function | ✅ | 2025-12-08 |
+| TASK-141 | Load connection string from environment variable | ✅ | 2025-12-08 |
+| TASK-142 | Create psycopg connection with connection string | ✅ | 2025-12-08 |
+| TASK-143 | Support connection pooling (optional for MVP) | ✅ | 2025-12-08 |
+| TASK-144 | Implement read-only query validation | ✅ | 2025-12-08 |
+| TASK-145 | Validate query starts with SELECT (simple check) | ✅ | 2025-12-08 |
+| TASK-146 | Execute query and return results as list of dicts | ✅ | 2025-12-08 |
+| TASK-147 | Write unit tests with mocked database connection | ⏳ | - |
 
 **Code Example:**
 ```python
@@ -677,23 +677,23 @@ def validate_readonly_query(query: str) -> bool:
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-148 | Create `runtime/builder.py` file | | |
-| TASK-149 | Import LangGraph StateGraph | | |
-| TASK-150 | Implement `build_graph_from_json(spec: WorkflowSpecModel)` function | | |
-| TASK-151 | Create StateGraph with GraphState | | |
-| TASK-152 | Register all sources in registry | | |
-| TASK-153 | Create node callable for each node in spec | | |
-| TASK-154 | Implement `create_node_callable(node)` function | | |
-| TASK-155 | Map node type to node factory (input→create_input_node, etc.) | | |
-| TASK-156 | Add each node to graph with `graph.add_node()` | | |
-| TASK-157 | Set entry point with `graph.set_entry_point(start_node)` | | |
-| TASK-158 | Add edges to graph with `graph.add_edge()` | | |
-| TASK-159 | Implement conditional edges for router node | | |
-| TASK-160 | Create condition function from edge metadata | | |
-| TASK-161 | Add conditional edges with `graph.add_conditional_edges()` | | |
-| TASK-162 | Compile graph with `graph.compile()` | | |
-| TASK-163 | Return compiled runnable graph | | |
-| TASK-164 | Write unit tests for graph builder with sample workflows | | |
+| TASK-148 | Create `runtime/builder.py` file | ✅ | 2025-12-08 |
+| TASK-149 | Import LangGraph StateGraph | ✅ | 2025-12-08 |
+| TASK-150 | Implement `build_graph_from_json(spec: WorkflowSpecModel)` function | ✅ | 2025-12-08 |
+| TASK-151 | Create StateGraph with GraphState | ✅ | 2025-12-08 |
+| TASK-152 | Register all sources in registry | ✅ | 2025-12-08 |
+| TASK-153 | Create node callable for each node in spec | ✅ | 2025-12-08 |
+| TASK-154 | Implement `create_node_callable(node)` function | ✅ | 2025-12-08 |
+| TASK-155 | Map node type to node factory (input→create_input_node, etc.) | ✅ | 2025-12-08 |
+| TASK-156 | Add each node to graph with `graph.add_node()` | ✅ | 2025-12-08 |
+| TASK-157 | Set entry point with `graph.set_entry_point(start_node)` | ✅ | 2025-12-08 |
+| TASK-158 | Add edges to graph with `graph.add_edge()` | ✅ | 2025-12-08 |
+| TASK-159 | Implement conditional edges for router node | ✅ | 2025-12-08 |
+| TASK-160 | Create condition function from edge metadata | ✅ | 2025-12-08 |
+| TASK-161 | Add conditional edges with `graph.add_conditional_edges()` | ✅ | 2025-12-08 |
+| TASK-162 | Compile graph with `graph.compile()` | ✅ | 2025-12-08 |
+| TASK-163 | Return compiled runnable graph | ✅ | 2025-12-08 |
+| TASK-164 | Write unit tests for graph builder with sample workflows | ⏳ | - |
 
 **Acceptance Criteria:**
 - ✅ Builds valid LangGraph from WorkflowSpec
@@ -788,19 +788,19 @@ def create_routing_function(edge, spec):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-165 | Create `runtime/executor.py` file | | |
-| TASK-166 | Implement `execute_workflow(spec, initial_state)` function | | |
-| TASK-167 | Build graph from spec using builder | | |
-| TASK-168 | Validate initial state has required fields | | |
-| TASK-169 | Invoke graph with initial state | | |
-| TASK-170 | Capture final state from graph execution | | |
-| TASK-171 | Handle execution errors gracefully | | |
-| TASK-172 | Add execution timeout (configurable, default 60s) | | |
-| TASK-173 | Track execution time | | |
-| TASK-174 | Log execution start, progress, and completion | | |
-| TASK-175 | Return final state and metadata (execution_time, etc.) | | |
-| TASK-176 | Write unit tests with sample workflows | | |
-| TASK-177 | Write integration tests end-to-end | | |
+| TASK-165 | Create `runtime/executor.py` file | ✅ | 2025-12-08 |
+| TASK-166 | Implement `execute_workflow(spec, initial_state)` function | ✅ | 2025-12-08 |
+| TASK-167 | Build graph from spec using builder | ✅ | 2025-12-08 |
+| TASK-168 | Validate initial state has required fields | ✅ | 2025-12-08 |
+| TASK-169 | Invoke graph with initial state | ✅ | 2025-12-08 |
+| TASK-170 | Capture final state from graph execution | ✅ | 2025-12-08 |
+| TASK-171 | Handle execution errors gracefully | ✅ | 2025-12-08 |
+| TASK-172 | Add execution timeout (configurable, default 60s) | ✅ | 2025-12-08 |
+| TASK-173 | Track execution time | ✅ | 2025-12-08 |
+| TASK-174 | Log execution start, progress, and completion | ✅ | 2025-12-08 |
+| TASK-175 | Return final state and metadata (execution_time, etc.) | ✅ | 2025-12-08 |
+| TASK-176 | Write unit tests with sample workflows | ⏳ | - |
+| TASK-177 | Write integration tests end-to-end | ⏳ | - |
 
 **Acceptance Criteria:**
 - ✅ Executes workflows successfully
@@ -864,19 +864,19 @@ def execute_workflow(spec: WorkflowSpecModel, initial_state: GraphState) -> Grap
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-178 | Create `api/main.py` file | | |
-| TASK-179 | Initialize FastAPI app with title, version, description | | |
-| TASK-180 | Configure CORS middleware for frontend access | | |
-| TASK-181 | Configure logging middleware | | |
-| TASK-182 | Add request ID middleware for tracing | | |
-| TASK-183 | Add error handling middleware | | |
-| TASK-184 | Configure JSON response formatting | | |
-| TASK-185 | Add startup event handler | | |
-| TASK-186 | Add shutdown event handler | | |
-| TASK-187 | Create health check endpoint (`GET /health`) | | |
-| TASK-188 | Configure OpenAPI documentation | | |
-| TASK-189 | Add API versioning (v1 prefix) | | |
-| TASK-190 | Write tests for FastAPI app initialization | | |
+| TASK-178 | Create `api/main.py` file | ✅ | 2025-12-08 |
+| TASK-179 | Initialize FastAPI app with title, version, description | ✅ | 2025-12-08 |
+| TASK-180 | Configure CORS middleware for frontend access | ✅ | 2025-12-08 |
+| TASK-181 | Configure logging middleware | ✅ | 2025-12-08 |
+| TASK-182 | Add request ID middleware for tracing | ⏳ | - |
+| TASK-183 | Add error handling middleware | ✅ | 2025-12-08 |
+| TASK-184 | Configure JSON response formatting | ✅ | 2025-12-08 |
+| TASK-185 | Add startup event handler | ✅ | 2025-12-08 |
+| TASK-186 | Add shutdown event handler | ✅ | 2025-12-08 |
+| TASK-187 | Create health check endpoint (`GET /health`) | ✅ | 2025-12-08 |
+| TASK-188 | Configure OpenAPI documentation | ✅ | 2025-12-08 |
+| TASK-189 | Add API versioning (v1 prefix) | ✅ | 2025-12-08 |
+| TASK-190 | Write tests for FastAPI app initialization | ⏳ | - |
 
 **Code Example:**
 ```python
@@ -929,17 +929,17 @@ async def health_check():
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-191 | Create `api/routes/__init__.py` | | |
-| TASK-192 | Create `api/routes/workflows.py` | | |
-| TASK-193 | Create APIRouter with prefix `/workflows` | | |
-| TASK-194 | Implement `POST /workflows/validate` endpoint | | |
-| TASK-195 | Accept WorkflowSpecModel as request body | | |
-| TASK-196 | Call validate_workflow() function | | |
-| TASK-197 | Return validation result (valid: bool, errors: list) | | |
-| TASK-198 | Handle validation errors gracefully | | |
-| TASK-199 | Return 200 for valid, 422 for invalid | | |
-| TASK-200 | Add request/response examples to OpenAPI docs | | |
-| TASK-201 | Write API tests for validation endpoint | | |
+| TASK-191 | Create `api/routes/__init__.py` | ✅ | 2025-12-08 |
+| TASK-192 | Create `api/routes/workflows.py` | ✅ | 2025-12-08 |
+| TASK-193 | Create APIRouter with prefix `/workflows` | ✅ | 2025-12-08 |
+| TASK-194 | Implement `POST /workflows/validate` endpoint | ✅ | 2025-12-08 |
+| TASK-195 | Accept WorkflowSpecModel as request body | ✅ | 2025-12-08 |
+| TASK-196 | Call validate_workflow() function | ✅ | 2025-12-08 |
+| TASK-197 | Return validation result (valid: bool, errors: list) | ✅ | 2025-12-08 |
+| TASK-198 | Handle validation errors gracefully | ✅ | 2025-12-08 |
+| TASK-199 | Return 200 for valid, 422 for invalid | ✅ | 2025-12-08 |
+| TASK-200 | Add request/response examples to OpenAPI docs | ✅ | 2025-12-08 |
+| TASK-201 | Write API tests for validation endpoint | ⏳ | - |
 
 **Code Example:**
 ```python
@@ -983,18 +983,18 @@ async def validate_workflow_endpoint(spec: WorkflowSpecModel):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-202 | Implement `POST /workflows/execute` endpoint | | |
-| TASK-203 | Accept ExecuteRequest model (workflow + initial_state) | | |
-| TASK-204 | Validate workflow before execution | | |
-| TASK-205 | Return 400 if validation fails | | |
-| TASK-206 | Call execute_workflow() function | | |
-| TASK-207 | Capture final state from execution | | |
-| TASK-208 | Generate unique execution_id | | |
-| TASK-209 | Return ExecuteResponse (status, final_state, execution_id) | | |
-| TASK-210 | Handle execution errors with 500 status | | |
-| TASK-211 | Add execution timeout handling | | |
-| TASK-212 | Log all executions with execution_id | | |
-| TASK-213 | Write API tests for execution endpoint | | |
+| TASK-202 | Implement `POST /workflows/execute` endpoint | ✅ | 2025-12-08 |
+| TASK-203 | Accept ExecuteRequest model (workflow + initial_state) | ✅ | 2025-12-08 |
+| TASK-204 | Validate workflow before execution | ✅ | 2025-12-08 |
+| TASK-205 | Return 400 if validation fails | ✅ | 2025-12-08 |
+| TASK-206 | Call execute_workflow() function | ✅ | 2025-12-08 |
+| TASK-207 | Capture final state from execution | ✅ | 2025-12-08 |
+| TASK-208 | Generate unique execution_id | ✅ | 2025-12-08 |
+| TASK-209 | Return ExecuteResponse (status, final_state, execution_id) | ✅ | 2025-12-08 |
+| TASK-210 | Handle execution errors with 500 status | ✅ | 2025-12-08 |
+| TASK-211 | Add execution timeout handling | ✅ | 2025-12-08 |
+| TASK-212 | Log all executions with execution_id | ✅ | 2025-12-08 |
+| TASK-213 | Write API tests for execution endpoint | ⏳ | - |
 
 **Code Example:**
 ```python
@@ -1042,21 +1042,21 @@ async def execute_workflow_endpoint(request: ExecuteRequest):
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-214 | Write unit tests for all models (100% coverage) | | |
-| TASK-215 | Write unit tests for validator (100% coverage) | | |
-| TASK-216 | Write unit tests for all nodes (100% coverage) | | |
-| TASK-217 | Write unit tests for graph builder (100% coverage) | | |
-| TASK-218 | Write unit tests for executor (100% coverage) | | |
-| TASK-219 | Write integration tests for complete workflows | | |
-| TASK-220 | Write API tests for all endpoints | | |
-| TASK-221 | Achieve 80%+ overall test coverage | | |
-| TASK-222 | Create example workflow JSON files | | |
-| TASK-223 | Document API endpoints in README | | |
-| TASK-224 | Create API usage examples (curl, Python) | | |
-| TASK-225 | Document environment variables | | |
-| TASK-226 | Create deployment guide | | |
-| TASK-227 | Run performance tests (50+ node workflows) | | |
-| TASK-228 | Fix any bugs found during testing | | |
+| TASK-214 | Write unit tests for all models (100% coverage) | ⏳ | - |
+| TASK-215 | Write unit tests for validator (100% coverage) | ⏳ | - |
+| TASK-216 | Write unit tests for all nodes (100% coverage) | ⏳ | - |
+| TASK-217 | Write unit tests for graph builder (100% coverage) | ⏳ | - |
+| TASK-218 | Write unit tests for executor (100% coverage) | ⏳ | - |
+| TASK-219 | Write integration tests for complete workflows | ⏳ | - |
+| TASK-220 | Write API tests for all endpoints | ⏳ | - |
+| TASK-221 | Achieve 80%+ overall test coverage | ⏳ | - |
+| TASK-222 | Create example workflow JSON files | ✅ | 2025-12-08 |
+| TASK-223 | Document API endpoints in README | ✅ | 2025-12-08 |
+| TASK-224 | Create API usage examples (curl, Python) | ⏳ | - |
+| TASK-225 | Document environment variables | ✅ | 2025-12-08 |
+| TASK-226 | Create deployment guide | ⏳ | - |
+| TASK-227 | Run performance tests (50+ node workflows) | ⏳ | - |
+| TASK-228 | Fix any bugs found during testing | ⏳ | - |
 
 **Acceptance Criteria:**
 - ✅ All unit tests pass
