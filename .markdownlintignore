@@ -1,0 +1,3 @@
+# .markdownlintignore
+# Ignore all markdown files in the repository
+**/*.md

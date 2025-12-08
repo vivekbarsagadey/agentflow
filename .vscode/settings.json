@@ -1,0 +1,9 @@
+{
+    // Disable VS Code built-in markdown validation (optional)
+    "markdown.validate.enabled": false,
+
+    // Instruct the markdownlint extension to ignore all markdown files (workspace setting)
+    "markdownlint.ignore": [
+        "**/*.md"
+    ]
+}
