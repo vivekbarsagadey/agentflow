@@ -115,7 +115,7 @@ def generate_image(
     try:
         # Try using Gemini's image generation
         # Note: Imagen API access may require specific setup
-        model_name = kwargs.get("model", "gemini-1.5-flash")
+        model_name = kwargs.get("model", "gemini-2.5-flash")
         
         model = client.GenerativeModel(model_name)
         

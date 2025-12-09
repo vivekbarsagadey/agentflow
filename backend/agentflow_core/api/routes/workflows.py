@@ -56,32 +56,73 @@ async def validate_workflow_endpoint(
     Returns:
         ValidationResult with valid flag and error list
     """
-    log_workflow_event(
-        "workflow_validation_requested",
-        node_count=len(spec.nodes),
-        edge_count=len(spec.edges)
-    )
-    
-    # Run validation
-    errors = validate_workflow(spec)
-    
-    if errors:
+    try:
+        # Generate a temporary workflow ID for logging
+        workflow_id = spec.name or generate_workflow_id()
+        
         log_workflow_event(
-            "workflow_validation_failed",
-            error_count=len(errors)
+            "workflow_validation_requested",
+            workflow_id,
+            node_count=len(spec.nodes),
+            edge_count=len(spec.edges)
         )
         
+        # Run validation
+        errors = validate_workflow(spec)
+        
+        logger.info(f"Validation completed with {len(errors)} errors")
+        
+        if errors:
+            log_workflow_event(
+                "workflow_validation_failed",
+                workflow_id,
+                error_count=len(errors)
+            )
+            
+            # Convert ValidationError objects to ValidationErrorModel objects
+            error_models = []
+            for error in errors:
+                try:
+                    if hasattr(error, 'model_dump'):
+                        error_models.append(error.model_dump())
+                    else:
+                        # Fallback: create ValidationErrorModel manually
+                        error_models.append({
+                            "type": getattr(error, 'type', 'unknown'),
+                            "message": getattr(error, 'message', str(error)),
+                            "node_id": getattr(error, 'node_id', None),
+                            "field": getattr(error, 'field', None)
+                        })
+                except Exception as e:
+                    logger.error(f"Error converting validation error: {e}")
+                    error_models.append({
+                        "type": "conversion_error",
+                        "message": f"Failed to convert error: {str(error)}",
+                        "node_id": None,
+                        "field": None
+                    })
+            
+            return ValidationResult(
+                valid=False,
+                errors=error_models
+            )
+        
+        log_workflow_event("workflow_validation_passed", workflow_id)
+        
         return ValidationResult(
-            valid=False,
-            errors=[e.model_dump() for e in errors]
+            valid=True,
+            errors=[]
         )
-    
-    log_workflow_event("workflow_validation_passed")
-    
-    return ValidationResult(
-        valid=True,
-        errors=[]
-    )
+        
+    except Exception as e:
+        logger.error(f"Unexpected error in validate_workflow_endpoint: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail={
+                "message": "Internal server error during validation",
+                "error": str(e)
+            }
+        )
 
 
 # =============================================================================
@@ -120,8 +161,12 @@ async def execute_workflow_endpoint(
     workflow = request.workflow
     initial_state = request.initial_state
     
+    # Use workflow name or generate ID for logging
+    workflow_id = workflow.name or generate_workflow_id()
+    
     log_workflow_event(
         "workflow_execution_requested",
+        workflow_id,
         node_count=len(workflow.nodes),
         edge_count=len(workflow.edges)
     )
@@ -131,6 +176,7 @@ async def execute_workflow_endpoint(
     if errors:
         log_workflow_event(
             "workflow_execution_rejected",
+            workflow_id,
             reason="validation_failed",
             error_count=len(errors)
         )
@@ -149,6 +195,7 @@ async def execute_workflow_endpoint(
     except Exception as e:
         log_workflow_event(
             "workflow_build_failed",
+            workflow_id,
             error=str(e)
         )
         
@@ -170,6 +217,7 @@ async def execute_workflow_endpoint(
         
         log_workflow_event(
             "workflow_execution_completed",
+            workflow_id,
             tokens_used=final_state.get("tokens_used", 0)
         )
         
@@ -183,6 +231,7 @@ async def execute_workflow_endpoint(
     except Exception as e:
         log_workflow_event(
             "workflow_execution_failed",
+            workflow_id,
             error=str(e)
         )
         

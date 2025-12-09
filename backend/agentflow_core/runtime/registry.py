@@ -29,6 +29,37 @@ _executions_lock = Lock()
 
 
 # =============================================================================
+# Registry View Class
+# =============================================================================
+
+
+class RegistryView:
+    """Read-only view of the registry for inspection."""
+    
+    @property
+    def sources(self) -> Dict[str, Dict[str, Any]]:
+        """Get a copy of all registered sources."""
+        with _sources_lock:
+            return dict(_sources)
+    
+    @property
+    def source_count(self) -> int:
+        """Get the number of registered sources."""
+        with _sources_lock:
+            return len(_sources)
+
+
+def get_registry() -> RegistryView:
+    """
+    Get a read-only view of the registry.
+    
+    Returns:
+        RegistryView instance for inspecting registry state
+    """
+    return RegistryView()
+
+
+# =============================================================================
 # Source Registry Functions
 # =============================================================================
 

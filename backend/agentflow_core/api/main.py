@@ -4,6 +4,10 @@ AgentFlow Core - FastAPI Application
 Main FastAPI application with all routers and middleware configured.
 """
 
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 from contextlib import asynccontextmanager
 from datetime import datetime

@@ -140,14 +140,14 @@ def _get_llm_source_config(
     # Check for inline configuration
     if metadata.get("model") or metadata.get("api_key_env"):
         return {
-            "model": metadata.get("model", "gemini-1.5-flash"),
+            "model": metadata.get("model", "gemini-2.5-flash"),
             "api_key_env": metadata.get("api_key_env", "GEMINI_API_KEY"),
             "provider": metadata.get("provider", "gemini"),
         }
     
     # Default to Gemini from environment
     return {
-        "model": os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
+        "model": os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
         "api_key_env": "GEMINI_API_KEY",
         "provider": "gemini",
     }
@@ -229,7 +229,7 @@ def _call_gemini(
     genai.configure(api_key=api_key)
     
     # Get model
-    model_name = source_config.get("model", "gemini-1.5-flash")
+    model_name = source_config.get("model", source_config.get("model_name", "gemini-2.5-flash"))
     
     # Create generation config
     generation_config = genai.GenerationConfig(

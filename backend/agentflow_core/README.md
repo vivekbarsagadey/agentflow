@@ -19,27 +19,22 @@ AgentFlow Core is a Python-based workflow orchestration engine built on FastAPI 
 ### Prerequisites
 
 - Python 3.11+
-- [uv](https://github.com/astral-sh/uv) (recommended) or pip
 
 ### Installation
 
 ```bash
-# Using uv (recommended)
 cd backend/agentflow_core
-uv sync
-
-# Or using pip
-pip install -e ".[dev]"
+pip install -e .
 ```
 
 ### Configuration
 
-1. Copy the example environment file:
+Copy the example environment file:
 ```bash
 cp .env.example .env
 ```
 
-2. Edit `.env` and add your Gemini API key:
+Edit `.env` and add your Gemini API key:
 ```
 GEMINI_API_KEY=your-gemini-api-key-here
 ```
@@ -47,11 +42,7 @@ GEMINI_API_KEY=your-gemini-api-key-here
 ### Running the Server
 
 ```bash
-# Using uvicorn
-uvicorn agentflow_core.api.main:app --reload --port 8000
-
-# Or using the convenience script
-python -m agentflow_core.main
+uvicorn agentflow_core.main:app --reload
 ```
 
 The API will be available at `http://localhost:8000`

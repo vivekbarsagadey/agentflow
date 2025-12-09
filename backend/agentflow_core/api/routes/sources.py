@@ -10,8 +10,8 @@ from fastapi import APIRouter, HTTPException, status
 
 from agentflow_core.api.models.workflow_model import SourceModel
 from agentflow_core.runtime.registry import (
-    clear_registry,
-    get_all_sources,
+    reset_registry,
+    list_sources as get_all_sources,
     get_source,
     register_source,
     unregister_source,
@@ -35,7 +35,7 @@ router = APIRouter(prefix="/sources", tags=["sources"])
     summary="List registered sources",
     description="Returns a list of all registered source configurations.",
 )
-async def list_sources() -> Dict[str, Any]:
+async def list_sources_endpoint() -> Dict[str, Any]:
     """
     List all registered sources.
     
@@ -44,10 +44,11 @@ async def list_sources() -> Dict[str, Any]:
     """
     sources = get_all_sources()
     
-    # Mask sensitive data
+    # Mask sensitive data - sources is a list of dicts with 'id' key
     masked_sources = {}
-    for source_id, config in sources.items():
-        masked_sources[source_id] = _mask_sensitive_config(config)
+    for source in sources:
+        source_id = source.get("id", "unknown")
+        masked_sources[source_id] = _mask_sensitive_config(source)
     
     return {
         "sources": masked_sources,
@@ -212,7 +213,7 @@ async def clear_all_sources() -> Dict[str, Any]:
     Returns:
         Confirmation message
     """
-    clear_registry()
+    reset_registry()
     
     logger.info("all_sources_cleared")
     
