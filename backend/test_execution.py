@@ -14,7 +14,7 @@ corrected_workflow = {
             'type': 'llm',
             'metadata': {
                 'source_id': 'gemini',
-                'prompt': 'Respond to: {user_input}'
+                'prompt_template': 'Respond to: {user_input}'
             }
         }
     ],
