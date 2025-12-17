@@ -6,7 +6,7 @@ This is the core compilation layer that transforms workflow definitions
 into runnable graphs.
 """
 
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Annotated, Any, Callable, Dict, List, Optional, Union
 
 from langgraph.graph import END, StateGraph
 
@@ -71,7 +71,8 @@ def build_graph_from_json(
         sources_data = [s.model_dump() for s in spec.sources]
         register_sources_from_spec(sources_data)
     
-    # Create graph builder
+    # Create graph builder with GraphState schema
+    # GraphState uses Annotated reducers for proper state accumulation
     builder = StateGraph(GraphState)
     
     # Build node ID to callable mapping
@@ -177,8 +178,14 @@ def _add_edges(
         edges: List of edge models
         nodes: List of node models (for type lookup)
     """
-    # Build node type lookup
-    node_types = {node.id: node.type.value for node in nodes}
+    # Build node type and metadata lookup
+    node_info = {
+        node.id: {
+            "type": node.type.value,
+            "metadata": node.metadata or {}
+        }
+        for node in nodes
+    }
     
     # Track which nodes have outgoing edges
     nodes_with_edges = set()
@@ -190,11 +197,29 @@ def _add_edges(
         
         nodes_with_edges.add(from_node)
         
-        # Check if this is a router node with conditional edges
-        from_node_type = node_types.get(from_node, "")
+        # Get node info
+        from_node_info = node_info.get(from_node, {})
+        from_node_type = from_node_info.get("type", "")
+        from_node_metadata = from_node_info.get("metadata", {})
         
-        if from_node_type == "router" and len(to_nodes) > 1:
-            # Conditional edge based on router intent
+        # Check if this is a PARALLEL ROUTER (default strategy with multiple targets)
+        router_strategy = from_node_metadata.get("strategy", "")
+        is_parallel_router = (
+            from_node_type == "router" 
+            and router_strategy == "default" 
+            and len(to_nodes) > 1
+        )
+        
+        if is_parallel_router:
+            # PARALLEL FAN-OUT: Add simple edges to all targets
+            for to_node in to_nodes:
+                if to_node.lower() == "end" or to_node == "__end__":
+                    builder.add_edge(from_node, END)
+                else:
+                    builder.add_edge(from_node, to_node)
+                logger.debug("parallel_edge_added", from_node=from_node, to_node=to_node)
+        elif from_node_type == "router" and len(to_nodes) > 1 and not condition:
+            # CONDITIONAL ROUTER: Use conditional edges for keyword/pattern/rules
             _add_conditional_edge(builder, from_node, to_nodes, condition)
         elif condition:
             # Conditional edge with explicit condition

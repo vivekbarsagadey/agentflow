@@ -5,10 +5,13 @@ Main FastAPI application with all routers and middleware configured.
 """
 
 # Load environment variables from .env file
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load .env from backend directory (parent of agentflow_core)
+env_path = Path(__file__).parent.parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
 from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import Any, Dict

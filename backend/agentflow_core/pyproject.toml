@@ -43,6 +43,9 @@ dependencies = [
     # Gemini AI
     "google-generativeai>=0.8.0",
     
+    # Groq AI
+    "groq>=0.30.0",
+    
     # Image Generation (Google Imagen)
     "pillow>=10.0.0",
     

@@ -183,6 +183,15 @@ def _call_llm(
             max_tokens=max_tokens,
             node_id=node_id
         )
+    elif provider == "groq":
+        return _call_groq(
+            source_config=source_config,
+            prompt=prompt,
+            system_prompt=system_prompt,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            node_id=node_id
+        )
     else:
         raise NodeExecutionError(
             message=f"Unsupported LLM provider: {provider}",
@@ -278,6 +287,89 @@ def _call_gemini(
         )
         raise NodeExecutionError(
             message=f"Gemini API call failed: {str(e)}",
+            node_id=node_id,
+            node_type="llm",
+            original_error=e
+        )
+
+
+def _call_groq(
+    source_config: Dict[str, Any],
+    prompt: str,
+    system_prompt: Optional[str],
+    temperature: float,
+    max_tokens: int,
+    node_id: str
+) -> tuple[str, int]:
+    """
+    Call Groq API.
+    
+    Returns:
+        Tuple of (generated_text, tokens_used)
+    """
+    try:
+        from groq import Groq
+    except ImportError:
+        raise NodeExecutionError(
+            message="groq package not installed. Install with: pip install groq",
+            node_id=node_id,
+            node_type="llm"
+        )
+    
+    # Get API key
+    api_key_env = source_config.get("api_key_env", "GROQ_API_KEY")
+    api_key = os.getenv(api_key_env)
+    
+    if not api_key:
+        raise NodeExecutionError(
+            message=f"API key not found in environment variable: {api_key_env}",
+            node_id=node_id,
+            node_type="llm"
+        )
+    
+    # Create Groq client
+    client = Groq(api_key=api_key)
+    
+    # Get model
+    model_name = source_config.get("model", "mixtral-8x7b-32768")
+    
+    try:
+        # Build messages
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+        
+        # Call Groq API
+        response = client.chat.completions.create(
+            model=model_name,
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+        
+        # Extract text and token count
+        generated_text = response.choices[0].message.content
+        tokens_used = response.usage.total_tokens if hasattr(response, 'usage') else 0
+        
+        logger.info(
+            "groq_call_success",
+            model=model_name,
+            prompt_length=len(prompt),
+            response_length=len(generated_text),
+            tokens_used=tokens_used
+        )
+        
+        return generated_text, tokens_used
+        
+    except Exception as e:
+        logger.error(
+            "groq_call_failed",
+            model=model_name,
+            error=str(e)
+        )
+        raise NodeExecutionError(
+            message=f"Groq API call failed: {str(e)}",
             node_id=node_id,
             node_type="llm",
             original_error=e

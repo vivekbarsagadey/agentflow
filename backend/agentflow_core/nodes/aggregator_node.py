@@ -143,6 +143,8 @@ def _aggregate_merge(
     """
     Merge all source values into a dictionary.
     
+    Looks for keys in both the state and state["outputs"].
+    
     Args:
         state: Current graph state
         source_keys: List of keys to merge
@@ -151,9 +153,14 @@ def _aggregate_merge(
         Dictionary with all non-empty values
     """
     result: Dict[str, Any] = {}
+    outputs = state.get("outputs", {})
     
     for key in source_keys:
+        # First check direct state, then outputs
         value = state.get(key)
+        if value is None or value == "" or value == [] or value == {}:
+            value = outputs.get(key)
+        
         if value is not None and value != "" and value != [] and value != {}:
             result[key] = value
     
@@ -167,6 +174,8 @@ def _aggregate_priority(
     """
     Select first non-empty value from priority order.
     
+    Looks for keys in both the state and state["outputs"].
+    
     Args:
         state: Current graph state
         priority_order: List of keys in priority order
@@ -174,8 +183,14 @@ def _aggregate_priority(
     Returns:
         First non-empty value found
     """
+    outputs = state.get("outputs", {})
+    
     for key in priority_order:
+        # First check direct state, then outputs
         value = state.get(key)
+        if value is None or value == "" or value == [] or value == {}:
+            value = outputs.get(key)
+        
         if value is not None and value != "" and value != [] and value != {}:
             return value
     
@@ -221,6 +236,8 @@ def _aggregate_concat(
     """
     Concatenate text values with separator.
     
+    Looks for keys in both the state and state["outputs"].
+    
     Args:
         state: Current graph state
         source_keys: Keys to concatenate
@@ -230,9 +247,14 @@ def _aggregate_concat(
         Concatenated string
     """
     parts: List[str] = []
+    outputs = state.get("outputs", {})
     
     for key in source_keys:
+        # First check direct state, then outputs
         value = state.get(key)
+        if value is None or value == "" or value == [] or value == {}:
+            value = outputs.get(key)
+        
         if value:
             if isinstance(value, str):
                 parts.append(value)

@@ -199,6 +199,7 @@ def _prepare_initial_state(
     Prepare the initial state for execution.
     
     Ensures all required fields are present and properly typed.
+    Supports both predefined GraphState keys and custom keys.
     
     Args:
         initial_state: User-provided initial state
@@ -211,10 +212,9 @@ def _prepare_initial_state(
         user_input=initial_state.get("user_input", "")
     )
     
-    # Merge user-provided state
+    # Merge user-provided state (allow all keys for flexibility)
     for key, value in initial_state.items():
-        if key in GraphState.__annotations__:
-            state[key] = value  # type: ignore
+        state[key] = value  # type: ignore
     
     return state
 

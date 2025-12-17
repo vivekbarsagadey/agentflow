@@ -42,7 +42,9 @@ GEMINI_API_KEY=your-gemini-api-key-here
 ### Running the Server
 
 ```bash
-uvicorn agentflow_core.main:app --reload
+# From backend directory
+cd backend
+uvicorn agentflow_core.api.main:app --reload 
 ```
 
 The API will be available at `http://localhost:8000`

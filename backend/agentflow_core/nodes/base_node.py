@@ -114,13 +114,52 @@ def create_node_wrapper(
     def wrapper(state: GraphState) -> GraphState:
         log_node_event("node_started", node_id, node_type)
         
-        # Add node to execution path
-        updated_state = add_to_execution_path(state, node_id)
-        
         try:
-            result = execute_fn(updated_state, _metadata)
+            # Execute the node logic
+            result = execute_fn(state, _metadata)
+            
+            # Get updates from the result (compare to input state)
+            # For reducer fields, we only want the delta
+            # For parallel execution, we MUST NOT include unchanged fields
+            updates: Dict[str, Any] = {}
+            
+            # Add execution path tracking
+            updates["execution_path"] = [node_id]
+            updates["current_node"] = [node_id]
+            
+            # Only include fields that were actually modified
+            # This is CRITICAL for parallel execution to avoid concurrent update errors
+            for key, value in result.items():
+                # Skip fields we handle separately
+                if key in ("execution_path", "current_node"):
+                    continue
+                
+                # Skip immutable fields that shouldn't change (parallel execution safety)
+                if key in ("user_input", "intent") and state.get(key) == value:
+                    continue
+                
+                # Handle errors - only include NEW errors
+                if key == "errors":
+                    old_errors = state.get("errors", [])
+                    new_errors = [e for e in value if e not in old_errors]
+                    if new_errors:
+                        updates["errors"] = new_errors
+                    continue
+                
+                # Handle tokens_used and cost - only include if changed
+                if key in ("tokens_used", "cost"):
+                    old_value = state.get(key, 0)
+                    delta = value - old_value
+                    if delta > 0:
+                        updates[key] = delta  # Return only the delta for addition
+                    continue
+                
+                # For all other fields, only include if changed
+                if state.get(key) != value:
+                    updates[key] = value
+            
             log_node_event("node_completed", node_id, node_type)
-            return result
+            return updates  # type: ignore
         except Exception as e:
             log_node_event(
                 "node_failed",
@@ -172,6 +211,7 @@ def interpolate_template(
     Interpolate a template string with values from state.
     
     Supports {variable_name} syntax for substitution.
+    Also looks in state["outputs"] for custom keys.
     
     Args:
         template: Template string with {placeholders}
@@ -193,7 +233,12 @@ def interpolate_template(
             def __missing__(self, key: str) -> str:
                 return f"{{{key}}}"  # Keep placeholder if not found
         
-        safe_state = SafeDict(state)
+        # Merge state with outputs for template interpolation
+        # This allows templates to reference custom keys like {summary}
+        outputs = state.get("outputs", {})
+        merged_state = {**state, **outputs}
+        
+        safe_state = SafeDict(merged_state)
         return template.format_map(safe_state)
     except Exception as e:
         logger.warning(
