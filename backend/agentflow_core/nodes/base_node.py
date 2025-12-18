@@ -134,9 +134,10 @@ def create_node_wrapper(
                 if key in ("execution_path", "current_node"):
                     continue
                 
-                # Skip immutable fields that shouldn't change (parallel execution safety)
-                if key in ("user_input", "intent") and state.get(key) == value:
-                    continue
+                # IMPORTANT: Do NOT skip user_input - it needs to be available to ALL subsequent nodes
+                # The keep_first reducer in GraphState will handle immutability
+                # if key in ("user_input", "intent") and state.get(key) == value:
+                #     continue
                 
                 # Handle errors - only include NEW errors
                 if key == "errors":
@@ -155,7 +156,8 @@ def create_node_wrapper(
                     continue
                 
                 # For all other fields, only include if changed
-                if state.get(key) != value:
+                # EXCEPTION: Always include user_input to ensure it's available to all nodes
+                if key == "user_input" or state.get(key) != value:
                     updates[key] = value
             
             log_node_event("node_completed", node_id, node_type)

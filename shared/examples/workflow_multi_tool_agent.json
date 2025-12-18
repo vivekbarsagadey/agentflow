@@ -1,0 +1,194 @@
+{
+  "name": "Multi-Tool Analysis Agent",
+  "description": "Agent coordinates multiple analysis tools running in parallel and aggregates results",
+  "version": "1.0.0",
+  "start_node": "input",
+  
+  "nodes": [
+    {
+      "id": "input",
+      "type": "input",
+      "metadata": {
+        "description": "Receives text content for multi-tool analysis"
+      }
+    },
+    {
+      "id": "agent_coordinator",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "You are an analysis coordinator agent. Your task is to prepare the content for parallel analysis by multiple tools.\n\nContent to analyze:\n{user_input}\n\nPrepare this content for:\n1. Text Summarization Tool\n2. Sentiment Analysis Tool\n3. Keyword Extraction Tool\n4. Entity Recognition Tool\n5. Language & Tone Detector\n\nReturn JSON:\n{\n  \"content\": \"cleaned content\",\n  \"content_type\": \"article/comment/document/code\",\n  \"word_count\": number,\n  \"ready_for_analysis\": true\n}",
+        "system_prompt": "You are an AI coordinator. Prepare content for analysis tools.",
+        "temperature": 0.2,
+        "max_tokens": 500,
+        "output_key": "coordinator_result"
+      }
+    },
+    {
+      "id": "tool_summarization",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Text Summarization\n\nContent:\n{user_input}\n\nGenerate:\n1. Brief summary (2-3 sentences)\n2. Key points (3-5 bullet points)\n3. Main topic\n\nReturn JSON:\n{\n  \"tool_name\": \"summarization\",\n  \"summary\": \"...\",\n  \"key_points\": [...],\n  \"main_topic\": \"...\",\n  \"confidence\": 0.0-1.0\n}",
+        "system_prompt": "You are a summarization tool. Be concise and accurate.",
+        "temperature": 0.3,
+        "max_tokens": 600,
+        "output_key": "summarization_result"
+      }
+    },
+    {
+      "id": "tool_sentiment",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Sentiment Analysis\n\nContent:\n{user_input}\n\nAnalyze:\n1. Overall sentiment (positive/negative/neutral/mixed)\n2. Sentiment score (-1.0 to +1.0)\n3. Emotional tone (happy/sad/angry/neutral/excited)\n4. Subjectivity (objective/subjective)\n\nReturn JSON:\n{\n  \"tool_name\": \"sentiment\",\n  \"sentiment\": \"positive\",\n  \"score\": 0.75,\n  \"emotion\": \"excited\",\n  \"subjectivity\": \"subjective\",\n  \"confidence\": 0.0-1.0\n}",
+        "system_prompt": "You are a sentiment analysis tool. Be precise with scores.",
+        "temperature": 0.1,
+        "max_tokens": 400,
+        "output_key": "sentiment_result"
+      }
+    },
+    {
+      "id": "tool_keywords",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Keyword Extraction\n\nContent:\n{user_input}\n\nExtract:\n1. Top keywords (5-10 words)\n2. Key phrases (2-5 phrases)\n3. Topics/themes\n4. Technical terms (if any)\n\nReturn JSON:\n{\n  \"tool_name\": \"keywords\",\n  \"keywords\": [...],\n  \"phrases\": [...],\n  \"topics\": [...],\n  \"technical_terms\": [...],\n  \"confidence\": 0.0-1.0\n}",
+        "system_prompt": "You are a keyword extraction tool. Focus on relevant terms.",
+        "temperature": 0.2,
+        "max_tokens": 500,
+        "output_key": "keywords_result"
+      }
+    },
+    {
+      "id": "tool_entities",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Entity Recognition\n\nContent:\n{user_input}\n\nIdentify:\n1. People (names, roles)\n2. Organizations (companies, institutions)\n3. Locations (cities, countries)\n4. Dates/Times\n5. Products/Technologies\n\nReturn JSON:\n{\n  \"tool_name\": \"entities\",\n  \"people\": [...],\n  \"organizations\": [...],\n  \"locations\": [...],\n  \"dates\": [...],\n  \"products\": [...],\n  \"confidence\": 0.0-1.0\n}",
+        "system_prompt": "You are an entity recognition tool. Be accurate with named entities.",
+        "temperature": 0.1,
+        "max_tokens": 600,
+        "output_key": "entities_result"
+      }
+    },
+    {
+      "id": "tool_language_tone",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Language & Tone Detector\n\nContent:\n{user_input}\n\nDetect:\n1. Primary language\n2. Writing style (formal/informal/technical/casual)\n3. Tone (professional/friendly/aggressive/neutral)\n4. Readability level (simple/moderate/complex)\n5. Target audience\n\nReturn JSON:\n{\n  \"tool_name\": \"language_tone\",\n  \"language\": \"English\",\n  \"writing_style\": \"technical\",\n  \"tone\": \"professional\",\n  \"readability\": \"moderate\",\n  \"audience\": \"professionals\",\n  \"confidence\": 0.0-1.0\n}",
+        "system_prompt": "You are a language and tone detection tool. Assess writing characteristics.",
+        "temperature": 0.2,
+        "max_tokens": 400,
+        "output_key": "language_tone_result"
+      }
+    },
+    {
+      "id": "result_aggregator",
+      "type": "aggregator",
+      "metadata": {
+        "strategy": "merge",
+        "source_keys": [
+          "coordinator_result",
+          "summarization_result",
+          "sentiment_result",
+          "keywords_result",
+          "entities_result",
+          "language_tone_result"
+        ],
+        "output_key": "aggregated_results",
+        "include_metadata": true
+      }
+    },
+    {
+      "id": "agent_synthesizer",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "You are the final synthesis agent. Combine all tool outputs into a comprehensive analysis report.\n\nOriginal Content:\n{user_input}\n\nTool Results:\n{aggregated_results}\n\nGenerate a comprehensive report with:\n1. Executive Summary\n2. Key Findings from Each Tool\n3. Cross-Tool Insights (connections between tool outputs)\n4. Overall Assessment\n5. Recommendations (if applicable)\n\nFormat as a professional analysis report.",
+        "system_prompt": "You are a synthesis agent. Create coherent, actionable insights from multiple tool outputs.",
+        "temperature": 0.4,
+        "max_tokens": 1000,
+        "output_key": "final_report"
+      }
+    },
+    {
+      "id": "final_output",
+      "type": "aggregator",
+      "metadata": {
+        "strategy": "merge",
+        "source_keys": [
+          "aggregated_results",
+          "final_report"
+        ],
+        "output_key": "final_output",
+        "include_metadata": true
+      }
+    }
+  ],
+  
+  "edges": [
+    { "from": "input", "to": "agent_coordinator" },
+    { "from": "agent_coordinator", "to": "tool_summarization" },
+    { "from": "tool_summarization", "to": "tool_sentiment" },
+    { "from": "tool_sentiment", "to": "tool_keywords" },
+    { "from": "tool_keywords", "to": "tool_entities" },
+    { "from": "tool_entities", "to": "tool_language_tone" },
+    { "from": "tool_language_tone", "to": "result_aggregator" },
+    { "from": "result_aggregator", "to": "agent_synthesizer" },
+    { "from": "agent_synthesizer", "to": "final_output" }
+  ],
+  
+  "queues": [
+    {
+      "id": "queue_coordinator",
+      "from": "input",
+      "to": "agent_coordinator",
+      "bandwidth": {
+        "max_requests_per_minute": 100,
+        "max_tokens_per_minute": 50000
+      }
+    },
+    {
+      "id": "queue_tools",
+      "from": "tool_router",
+      "to": "tool_summarization",
+      "bandwidth": {
+        "max_requests_per_minute": 200,
+        "max_tokens_per_minute": 150000
+      }
+    }
+  ],
+  
+  "sources": [
+    {
+      "id": "groq-llm",
+      "kind": "llm",
+      "config": {
+        "provider": "groq",
+        "model": "llama-3.3-70b-versatile",
+        "api_key_env": "GROQ_API_KEY"
+      }
+    }
+  ],
+  
+  "metadata": {
+    "pattern": "parallel_multi_tool",
+    "agent_role": "coordinator_and_synthesizer",
+    "tools": [
+      "summarization",
+      "sentiment_analysis",
+      "keyword_extraction",
+      "entity_recognition",
+      "language_tone_detection"
+    ],
+    "use_cases": [
+      "Document analysis",
+      "Content intelligence",
+      "Research synthesis",
+      "Market research analysis",
+      "Customer feedback analysis"
+    ]
+  }
+}

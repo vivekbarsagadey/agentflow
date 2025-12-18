@@ -2,7 +2,7 @@
 
 > **Comprehensive workflow examples for AgentFlow engine covering all supported patterns.**
 
-This document provides 6 complete workflow examples that you can use as templates. Each example includes:
+This document provides 8 complete workflow examples that you can use as templates. Each example includes:
 - Complete JSON workflow definition
 - All required fields (nodes, edges, sources, start_node, metadata, initial_state)
 - Edge cases and error handling considerations
@@ -17,7 +17,9 @@ This document provides 6 complete workflow examples that you can use as template
 3. [Parallel Pattern: Concurrent Execution](#3-parallel-pattern-concurrent-execution)
 4. [Conditional Pattern: Intent-Based Routing](#4-conditional-pattern-intent-based-routing)
 5. [Subflow Pattern: Nested Workflows](#5-subflow-pattern-nested-workflows)
-6. [Human-Interaction Pattern: Approval Workflow](#6-human-interaction-pattern-approval-workflow)
+6. [Role-Based Dashboard: Subflow Pattern with User Routing](#6-role-based-dashboard-subflow-pattern-with-user-routing)
+7. [Human-Interaction Pattern: Approval Workflow](#7-human-interaction-pattern-approval-workflow)
+8. [Multi-Tool Analysis Agent: Sequential Tool Orchestration](#8-multi-tool-analysis-agent-sequential-tool-orchestration)
 
 ---
 
@@ -1809,6 +1811,304 @@ Each subflow is **isolated and parallel** - only ONE executes based on user role
 | Appeal submitted | Create new review with escalated priority |
 | SLA breach imminent | Auto-escalate, notify supervisors |
 | Bulk content from same user | Batch review, apply pattern detection |
+
+---
+
+## 8. Multi-Tool Analysis Agent: Sequential Tool Orchestration
+
+**Scenario**: An intelligent agent that coordinates multiple specialized analysis tools (summarization, sentiment, keywords, entities, language/tone) to perform comprehensive content analysis.
+
+**Use Cases**:
+- Document analysis and intelligence
+- Content quality assessment
+- Research synthesis and reporting
+- Multi-dimensional text analysis
+
+### Workflow Definition
+
+```json
+{
+  "name": "Multi-Tool Analysis Agent - Sequential",
+  "description": "Agent coordinates tools in sequence (not parallel) due to LangGraph limitations",
+  "version": "1.0.0",
+  "start_node": "input",
+  
+  "nodes": [
+    {
+      "id": "input",
+      "type": "input",
+      "metadata": {
+        "description": "Receives text content for multi-tool analysis"
+      }
+    },
+    {
+      "id": "tool_summarization",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Text Summarization\n\nContent:\n{user_input}\n\nGenerate:\n1. Brief summary (2-3 sentences)\n2. Key points (3-5 bullet points)\n3. Main topic\n\nReturn ONLY valid JSON:\n{{\n  \"tool_name\": \"summarization\",\n  \"summary\": \"...\",\n  \"key_points\": [\"point1\", \"point2\", \"point3\"],\n  \"main_topic\": \"...\",\n  \"confidence\": 0.9\n}}",
+        "system_prompt": "You are a summarization tool. Return ONLY JSON, no markdown, no explanations.",
+        "temperature": 0.3,
+        "max_tokens": 600,
+        "output_key": "summarization_result"
+      }
+    },
+    {
+      "id": "tool_sentiment",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Sentiment Analysis\n\nContent:\n{user_input}\n\nAnalyze:\n1. Overall sentiment (positive/negative/neutral/mixed)\n2. Sentiment score (-1.0 to +1.0)\n3. Emotional tone\n4. Subjectivity\n\nReturn ONLY valid JSON:\n{{\n  \"tool_name\": \"sentiment\",\n  \"sentiment\": \"positive\",\n  \"score\": 0.75,\n  \"emotion\": \"excited\",\n  \"subjectivity\": \"objective\",\n  \"confidence\": 0.85\n}}",
+        "system_prompt": "You are a sentiment analysis tool. Return ONLY JSON, no markdown.",
+        "temperature": 0.1,
+        "max_tokens": 400,
+        "output_key": "sentiment_result"
+      }
+    },
+    {
+      "id": "tool_keywords",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Keyword Extraction\n\nContent:\n{user_input}\n\nExtract:\n1. Top keywords (5-10 words)\n2. Key phrases (2-5 phrases)\n3. Topics/themes\n4. Technical terms\n\nReturn ONLY valid JSON:\n{{\n  \"tool_name\": \"keywords\",\n  \"keywords\": [\"AI\", \"healthcare\", \"diagnostics\"],\n  \"phrases\": [\"machine learning\", \"early cancer detection\"],\n  \"topics\": [\"AI in healthcare\", \"medical diagnostics\"],\n  \"technical_terms\": [\"machine learning\", \"algorithms\"],\n  \"confidence\": 0.9\n}}",
+        "system_prompt": "You are a keyword extraction tool. Return ONLY JSON, no markdown.",
+        "temperature": 0.2,
+        "max_tokens": 500,
+        "output_key": "keywords_result"
+      }
+    },
+    {
+      "id": "tool_entities",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Entity Recognition\n\nContent:\n{user_input}\n\nIdentify:\n1. People (names, roles)\n2. Organizations (companies, institutions)\n3. Locations (cities, countries)\n4. Dates/Times\n5. Products/Technologies\n\nReturn ONLY valid JSON:\n{{\n  \"tool_name\": \"entities\",\n  \"people\": [],\n  \"organizations\": [\"Google Health\", \"IBM Watson\"],\n  \"locations\": [\"United States\", \"Europe\"],\n  \"dates\": [\"2024\"],\n  \"products\": [\"AI systems\"],\n  \"confidence\": 0.88\n}}",
+        "system_prompt": "You are an entity recognition tool. Return ONLY JSON, no markdown.",
+        "temperature": 0.1,
+        "max_tokens": 600,
+        "output_key": "entities_result"
+      }
+    },
+    {
+      "id": "tool_language_tone",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "Tool: Language & Tone Detector\n\nContent:\n{user_input}\n\nDetect:\n1. Primary language\n2. Writing style\n3. Tone\n4. Readability level\n5. Target audience\n\nReturn ONLY valid JSON:\n{{\n  \"tool_name\": \"language_tone\",\n  \"language\": \"English\",\n  \"writing_style\": \"informative\",\n  \"tone\": \"professional\",\n  \"readability\": \"moderate\",\n  \"audience\": \"general public\",\n  \"confidence\": 0.92\n}}",
+        "system_prompt": "You are a language and tone detection tool. Return ONLY JSON, no markdown.",
+        "temperature": 0.2,
+        "max_tokens": 400,
+        "output_key": "language_tone_result"
+      }
+    },
+    {
+      "id": "result_aggregator",
+      "type": "aggregator",
+      "metadata": {
+        "strategy": "merge",
+        "source_keys": [
+          "summarization_result",
+          "sentiment_result",
+          "keywords_result",
+          "entities_result",
+          "language_tone_result"
+        ],
+        "output_key": "aggregated_results",
+        "include_metadata": true
+      }
+    },
+    {
+      "id": "agent_synthesizer",
+      "type": "llm",
+      "metadata": {
+        "source_id": "groq-llm",
+        "prompt_template": "You are the final synthesis agent. Combine all tool outputs into a comprehensive analysis report.\n\nOriginal Content:\n{user_input}\n\nTool Results:\n{aggregated_results}\n\nGenerate a comprehensive report with:\n1. Executive Summary\n2. Key Findings from Each Tool\n3. Cross-Tool Insights\n4. Overall Assessment\n5. Recommendations\n\nFormat as a professional analysis report.",
+        "system_prompt": "You are a synthesis agent. Create coherent, actionable insights from multiple tool outputs.",
+        "temperature": 0.4,
+        "max_tokens": 1000,
+        "output_key": "final_report"
+      }
+    },
+    {
+      "id": "final_output",
+      "type": "aggregator",
+      "metadata": {
+        "strategy": "merge",
+        "source_keys": [
+          "aggregated_results",
+          "final_report"
+        ],
+        "output_key": "final_output",
+        "include_metadata": true
+      }
+    }
+  ],
+  
+  "edges": [
+    { "from": "input", "to": "tool_summarization" },
+    { "from": "tool_summarization", "to": "tool_sentiment" },
+    { "from": "tool_sentiment", "to": "tool_keywords" },
+    { "from": "tool_keywords", "to": "tool_entities" },
+    { "from": "tool_entities", "to": "tool_language_tone" },
+    { "from": "tool_language_tone", "to": "result_aggregator" },
+    { "from": "result_aggregator", "to": "agent_synthesizer" },
+    { "from": "agent_synthesizer", "to": "final_output" }
+  ],
+  
+  "queues": [
+    {
+      "id": "queue_input",
+      "from": "input",
+      "to": "tool_summarization",
+      "bandwidth": {
+        "max_requests_per_minute": 100,
+        "max_tokens_per_minute": 50000
+      }
+    }
+  ],
+  
+  "sources": [
+    {
+      "id": "groq-llm",
+      "kind": "llm",
+      "config": {
+        "provider": "groq",
+        "model": "llama-3.3-70b-versatile",
+        "api_key_env": "GROQ_API_KEY"
+      }
+    }
+  ],
+  
+  "metadata": {
+    "pattern": "sequential_multi_tool",
+    "note": "Tools execute sequentially (not parallel) due to LangGraph conditional routing limitations",
+    "tools": [
+      "summarization",
+      "sentiment_analysis",
+      "keyword_extraction",
+      "entity_recognition",
+      "language_tone_detection"
+    ],
+    "use_cases": [
+      "Document analysis",
+      "Content intelligence",
+      "Research synthesis"
+    ]
+  }
+}
+```
+
+### Initial State
+
+```json
+{
+  "user_input": "Artificial Intelligence is rapidly transforming the healthcare industry. Machine learning algorithms are now capable of diagnosing diseases from medical images with accuracy comparable to human experts. Companies like Google Health and IBM Watson are leading innovations in AI-powered diagnostics. In 2024, hospitals in the United States and Europe began implementing AI systems for early cancer detection, resulting in a 25% improvement in survival rates."
+}
+```
+
+### Expected Output
+
+```json
+{
+  "status": "success",
+  "final_state": {
+    "user_input": "Artificial Intelligence is rapidly transforming...",
+    "summarization_result": {
+      "tool_name": "summarization",
+      "summary": "AI is revolutionizing healthcare through advanced diagnostic capabilities. Machine learning algorithms now match human expert accuracy in disease detection. Major tech companies are driving innovation while hospitals report significant improvements in cancer survival rates.",
+      "key_points": [
+        "AI transforming healthcare diagnostics",
+        "ML algorithms match human expert accuracy",
+        "Google Health and IBM Watson leading innovation",
+        "25% improvement in cancer survival rates",
+        "Implementation began in 2024 across US and Europe"
+      ],
+      "main_topic": "AI in Healthcare Diagnostics",
+      "confidence": 0.95
+    },
+    "sentiment_result": {
+      "tool_name": "sentiment",
+      "sentiment": "positive",
+      "score": 0.82,
+      "emotion": "optimistic",
+      "subjectivity": "objective",
+      "confidence": 0.88
+    },
+    "keywords_result": {
+      "tool_name": "keywords",
+      "keywords": ["AI", "healthcare", "machine learning", "diagnostics", "algorithms", "cancer detection"],
+      "phrases": ["AI-powered diagnostics", "machine learning algorithms", "early cancer detection", "survival rates"],
+      "topics": ["Healthcare AI", "Medical Diagnostics", "Technology Innovation"],
+      "technical_terms": ["machine learning", "algorithms", "medical images"],
+      "confidence": 0.91
+    },
+    "entities_result": {
+      "tool_name": "entities",
+      "people": [],
+      "organizations": ["Google Health", "IBM Watson"],
+      "locations": ["United States", "Europe"],
+      "dates": ["2024"],
+      "products": ["AI systems", "machine learning algorithms"],
+      "confidence": 0.93
+    },
+    "language_tone_result": {
+      "tool_name": "language_tone",
+      "language": "English",
+      "writing_style": "informative",
+      "tone": "professional",
+      "readability": "moderate",
+      "audience": "general public",
+      "confidence": 0.94
+    },
+    "aggregated_results": {
+      "summarization_result": {...},
+      "sentiment_result": {...},
+      "keywords_result": {...},
+      "entities_result": {...},
+      "language_tone_result": {...}
+    },
+    "final_report": "# Comprehensive Analysis Report\n\n## Executive Summary\nThis analysis examines a text discussing AI's transformative impact on healthcare...",
+    "final_output": {
+      "aggregated_results": {...},
+      "final_report": "..."
+    },
+    "execution_path": ["input", "tool_summarization", "tool_sentiment", "tool_keywords", "tool_entities", "tool_language_tone", "result_aggregator", "agent_synthesizer", "final_output"],
+    "tokens_used": 3500,
+    "cost": 0
+  }
+}
+```
+
+### Workflow Architecture
+
+```
+input → tool_summarization → tool_sentiment → tool_keywords → tool_entities → tool_language_tone → result_aggregator → agent_synthesizer → final_output
+```
+
+**Note**: Tools execute **sequentially** rather than in parallel due to LangGraph's conditional routing limitations. Each tool receives the original `user_input` and produces its specialized analysis.
+
+### Edge Cases
+
+| Scenario | Handling |
+|----------|----------|
+| Empty input | Validation fails at input node |
+| Very long text | May exceed token limits; consider chunking |
+| Non-English text | Language detector identifies language; other tools adapt |
+| LLM returns invalid JSON | Retry with stricter prompt or parse error gracefully |
+| One tool fails | Continue with remaining tools; mark failed tool in aggregator |
+| Rate limit exceeded | Queue handles backoff; respects bandwidth limits |
+| Ambiguous content | Tools report lower confidence scores |
+| Mixed language content | Language detector reports "mixed"; other tools handle accordingly |
+
+### Key Implementation Notes
+
+1. **Escaped JSON Braces**: All JSON examples in `prompt_template` use `{{` and `}}` to prevent Python's `str.format()` from interpreting them as format specifiers.
+
+2. **Sequential Execution**: LangGraph's `conditional_edges()` can only route to a single target, not multiple targets simultaneously. This workflow chains tools sequentially.
+
+3. **State Propagation**: Each tool writes to its own `output_key`, and the aggregator merges all results.
+
+4. **Synthesis Agent**: The final LLM node (`agent_synthesizer`) receives aggregated results and produces a human-readable report.
 
 ---
 

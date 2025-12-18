@@ -70,9 +70,24 @@ def create_llm_node(
         max_tokens = get_metadata_value(meta, "max_tokens", 4096)
         output_key = get_metadata_value(meta, "output_key", "text_result")
         
+        # DEBUG: Log state to understand what's available
+        logger.info(
+            "llm_node_state_check",
+            node_id=node_id,
+            has_user_input="user_input" in state,
+            user_input_preview=str(state.get("user_input", ""))[:100],
+            state_keys=list(state.keys())
+        )
+        
         # Build prompt from template or static prompt
         if prompt_template:
             final_prompt = interpolate_template(prompt_template, state)
+            logger.info(
+                "llm_node_template_interpolated",
+                node_id=node_id,
+                template_preview=prompt_template[:100],
+                interpolated_preview=final_prompt[:100]
+            )
         elif prompt:
             final_prompt = prompt
         else:
